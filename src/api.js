@@ -67,7 +67,6 @@ export async function getChainList() {
   try {
     const response = await http.get(`/wallet/blockchains`)
       .then((response) => response.data);
-    console.log('chains', response);
     return response;
   } catch (err) {
     console.error(err);
@@ -108,7 +107,6 @@ export async function getLocalStorageAssets() {
   const assets = localStorage.getItem('assets');
   try {
     const assetsResult = JSON.parse(assets);
-    console.log(assetsResult);
     
     if (assetsResult) {
       return assetsResult;
@@ -150,7 +148,6 @@ export async function getMarkets () {
 }
 
 export async function getExchangeDetails (exchange, from, to) {
-  console.log(exchange, from, to, getToTimeStamp());
   try {
     const response = await http.get(`/coins/price/exchange?exchange=${exchange}&from=${from}&to=${to}&timestamp=${getToTimeStamp()}`)
       .then((response) => response.data);

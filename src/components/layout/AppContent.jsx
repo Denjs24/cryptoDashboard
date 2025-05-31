@@ -28,8 +28,6 @@ const contentStyle = {
 export default function AppContent(){
     const location = useLocation()
     const pathname = location.pathname.replace('/', '').split('/').filter(local => local !== "")
-    console.log(pathname);
-    
     
     return (
         
@@ -41,9 +39,6 @@ export default function AppContent(){
                         title: <NavLink to={'/'}>Home</NavLink>,
                     },
                     ...pathname.map((part, index) => {
-                        console.log(pathname.length , index - 1);
-                        console.log(pathname.length !== index - 1);
-                        
                         return{
                             title: pathname.length !== index + 1 ? <NavLink to={"/" + part}>{part.charAt(0).toUpperCase() + part.slice(1)}</NavLink> : part.charAt(0).toUpperCase() + part.slice(1) ,
                         }

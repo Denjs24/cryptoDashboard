@@ -5,9 +5,7 @@ import ReactDocumentTitle from 'react-document-title'
 
 export function ChainList (props) {
     let {chainList} = useCrypto();
-    
-    console.log(typeof chainList);
-    
+        
 
     return(
         <ReactDocumentTitle title='Chain List'>

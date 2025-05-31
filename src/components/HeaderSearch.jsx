@@ -32,7 +32,7 @@ export function HeaderSearch () {
         setSearchValue('');
         setSearchFocused(false);
         setResults([]);
-        navigate.to(`/currency/${coinId}`);
+        navigate.to(`/listcrypto/${coinId}`);
     }
     
     return (

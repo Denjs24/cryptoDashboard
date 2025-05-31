@@ -17,23 +17,28 @@ export function Swap () {
     const [activeExhange, setActiveExhange] = useState('Binance')
     const [select, setSelect] = useState(false)
     const {crypto, assets, exchanges} = useCrypto();
+    const [fetch, setFetch] = useState(false)
 
 
     let walletAssetFirst = assets.find(asset => asset.symbol == firstCoin)
     let walletAssetSecond = assets.find(asset => asset.symbol == secondCoin)
 
     useEffect(() =>{
+        setFetch(true)
         const getExchangesFetch = async () => {
-                let {price} = await getExchangeDetails(activeExhange, firstCoin, secondCoin);
-                console.log(price);
-                
+            try {
+                let { price } = await getExchangeDetails(activeExhange, firstCoin, secondCoin);
                 if (!price) {
                     price = 0;
-                }else if (price > 0.00) {
+                } else if (price > 0.00) {
                     price.toFixed(2)
                 }
-
                 setSecondValue(firstValue * price || 0)
+            } catch (error) {
+                setSecondValue(NaN)
+                console.log('Swap error:', error);
+            }
+            
         }
             // const firstCoinInfo = crypto.find(coin => coin.symbol == firstCoin)
             // const secondCoinInfo = crypto.find(coin => coin.symbol == secondCoin)
@@ -45,6 +50,7 @@ export function Swap () {
         //     console.log('Отработала функция!!!');
         // }, 300)
         getExchangesFetch();
+        setFetch(false)
     }, [firstValue, secondCoin, firstCoin, activeExhange])
 
 
@@ -121,10 +127,10 @@ export function Swap () {
                         <button onClick={switchCoins} type='button' className='swap__revers'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5155a6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
                         </button>
-                        <SwapForm coin={secondCoin} value={secondValue} changePercentValue={changePercentValue} asset={walletAssetSecond} changeAllAsset={() => setSecondValue(walletAssetSecond.amount)} changeCoin={(value, item) => setSecondCoin(item.label)} radio={false} second={true}/>
+                        <SwapForm coin={secondCoin} value={fetch ? 'Fetch...' : secondValue} changePercentValue={changePercentValue} asset={walletAssetSecond} changeAllAsset={() => setSecondValue(walletAssetSecond.amount)} changeCoin={(value, item) => setSecondCoin(item.label)} radio={false} second={true}/>
                     </div>
                     <div className="swap__footer">
-                        <Button type="primary" className='swap__button'>Swap</Button>
+                        <Button type="primary" disabled={!secondValue && fetch} className='swap__button'>Swap</Button>
                     </div>
                 </form>
             </div>

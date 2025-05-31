@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useNavigation } from "../shared/hooks/useNavigation";
 import axios from "axios";
 import CurrencyChart from "./CurrencyChart";
+import { formattedNumber, getPercentage } from "../utilis";
 
 let socialIcons = {
     reddit: 'https://cdn3.iconfinder.com/data/icons/2018-social-media-logotypes/1000/2018_social_media_popular_app_logo_reddit-512.png',
@@ -30,7 +31,7 @@ export function Currency(){
             try {
                 const res = await axios.get(`https://api.binance.com/api/v3/ticker/price?symbol=${coinData.symbol}USDT`)
                 let responePrice = +(res.data.price)
-                if (price < 0.01) {
+                if (responePrice < 0.01) {
                     
                 }else if (responePrice > 1000) {
                     responePrice = responePrice.toFixed(0)
@@ -41,19 +42,19 @@ export function Currency(){
                 setPrevPrice(price)
             } catch (error) {
                 console.error('Ошибка при загрузке цены:', error)
+                if (coinData.price < 0.01) {
+                    setPrice(coinData.price)
+                }else if (coinData.price > 1000) {
+                    setPrice(coinData.price.toFixed(0))
+                }else{
+                    setPrice(coinData.price.toFixed(2))
+                }
+                
             }
         }
         fetchPrice()
         const interval = setInterval(fetchPrice, 5000)
         return () => clearInterval(interval)
-        // const ws = new WebSocket(`wss://stream.binance.com:9443/ws/${coinData.symbol.toLowerCase()}usdt@trade`)
-        
-        // ws.onmessage = (event) => {
-        //     const data = JSON.parse(event.data)
-        //     setPrice(+data.p)
-        // }
-
-        // return () => ws.close()
     }, [coinData])
 
     useEffect(() => {
@@ -61,7 +62,6 @@ export function Currency(){
             try {
                 const coinDataFetch = await getCoin(coinName)
                 setCoinData(coinDataFetch);
-                
             } catch (error) {
                 console.log(error);
                 
@@ -87,6 +87,17 @@ export function Currency(){
             </div>
         )
     }
+
+    if (!coinData) {
+        return(
+            <div className="loading">
+                <button type="button" onClick={back}>Back</button>
+                <h1>Not found coin!</h1>
+            </div>
+        )
+    }
+
+    console.log(getPercentage(coinData.availableSupply, coinData.totalSupply));
     
 
     return(
@@ -119,6 +130,13 @@ export function Currency(){
                 </ul>
             </div>
             <div className="currency__body">
+                <div className="flex flex-col gap-x-2 rounded-md h-2 w-80 bg-cyan-900 relative my-6">
+                    <span className="absolute left-0 bottom-3 text-white whitespace-nowrap font-medium">{formattedNumber(coinData.availableSupply)} {coinData.symbol}</span>
+                    <div style={{'width': `${getPercentage(coinData.availableSupply, coinData.totalSupply)}%`}} className="absolute left-0 top-0 bottom-0 h-full max-w-full bg-cyan-700">
+                        <span className="absolute right-0 top-3 text-white whitespace-nowrap font-medium">{getPercentage(coinData.availableSupply, coinData.totalSupply).toFixed(2)}%</span>
+                    </div>
+                    <span className="absolute right-0 bottom-3 text-white whitespace-nowrap font-medium">{formattedNumber(coinData.totalSupply)} {coinData.symbol}</span>
+                </div>
                 <ul className="currency__price-change price-change">
                     <li className="price-change__item">
                         <span className="price-change__name">1 hour</span>

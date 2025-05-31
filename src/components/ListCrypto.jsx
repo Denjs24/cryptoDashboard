@@ -7,6 +7,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { fakeFetchCrypto } from '../api';
 import ReactDocumentTitle from "react-document-title";
 import { useNavigation } from '../shared/hooks/useNavigation';
+import { TableTop } from './TableTop';
+import { MarketInfoWrapper } from './MarketInfoWrapper';
 // import CoinInfoModule from './CoinInfoModule';
 
 
@@ -16,6 +18,7 @@ export default function ListCrypto() {
   const [loading, setLoading] = useState(true);
   const [cryptoTable, setCryptoTable] = useState(null);
   const [page, setPage] = useState(lastPage);
+  const [pageSize, setPageSize] = useState(30)
   const param = useParams();
   let navigate = useNavigation();
   
@@ -84,7 +87,7 @@ export default function ListCrypto() {
   useEffect(() => {
     async function fetchData() {
       try {
-        let result = await fakeFetchCrypto(page, 30)
+        let result = await fakeFetchCrypto(page, pageSize)
         setCryptoTable(result);
       } catch (error) {
         console.log(error);
@@ -94,7 +97,7 @@ export default function ListCrypto() {
       }
     }
     fetchData();
-  }, [page]);
+  }, [page, pageSize]);
   
   // async function updPage(pageId){
   //   let {result} = await fakeFetchCrypto(pageId)
@@ -110,22 +113,21 @@ export default function ListCrypto() {
   //   return () => clearInterval(intervalId);
   // }, []);
 
-  async function changePage(e) {
-    let result = await fakeFetchCrypto(e)
-    setCryptoTable(result);
-    setLastPage(e);
-    setPage(e);
+  async function changePage(page, countsOnPage) {
+    // let result = await fakeFetchCrypto(page, countsOnPage)
+    // setCryptoTable(result);
+    setLastPage(page);
+    setPage(page);
+    setPageSize(countsOnPage)
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   }  
 
-  const modalCreator = useCallback((record, rowIndex) => {
-    // changeNamePageCrypto(record.name)
-    
+  const handleClickRow = (record, rowIndex) => {
     navigate.to(`/currency/${record.id}`);
-  }, []);
+  }
 
   if (loading || !cryptoTable) {
     return (
@@ -151,12 +153,16 @@ export default function ListCrypto() {
     <ReactDocumentTitle title="List crypto">
       <>
       <Typography.Title level={2} style={{ color: '#fff', marginTop: '0rem' }}>Список Криптовалют</Typography.Title>
+      <div className="grid grid-cols-3 grid-rows-2 gap-x-6">
+        <TableTop title='Top coins' dataTabs={['Top rank', 'Top growth', 'Top volume']} dataTabsActive={'Top rank'} />
+        <MarketInfoWrapper />
+      </div>
       <Table columns={columns} pagination={false} dataSource={data}  style={{ marginTop: '1rem' }} className='tableList' onRow={(record, rowIndex) => {
         return {
-          onClick: (event) => {modalCreator(record, rowIndex)}, // click row
+          onClick: (event) => {handleClickRow(record, rowIndex)}, // click row
         };
       }}/>
-    <Pagination defaultCurrent={page} total={60} onChange={changePage}/>
+      <Pagination defaultCurrent={page} total={500} defaultPageSize={pageSize} onChange={changePage}/>
       {/* <Modal open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} footer={null}>
         <CoinInfoModule coin={coin} />
       </Modal> */}

@@ -18,11 +18,18 @@ export default function AppLayout(){
         <BrowserRouter>
             <Layout>
                 <AppHeader />
-                <Layout>
+                <Layout >
                     <AppSider />
                     <AppContent text="Hello world"/>
                 </Layout>
             </Layout>
+            {/* <Layout>
+                <AppSider />
+                <Layout>
+                    <AppHeader style={{ padding: 0}} />
+                    <AppContent style={{ margin: '24px 16px 0' }} />
+                </Layout>
+            </Layout> */}
         </BrowserRouter>
     )
 }

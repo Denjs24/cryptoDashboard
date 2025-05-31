@@ -11,11 +11,6 @@ const siderStyle = {
     padding: "1rem",
 };
 
-const list = {
-    textAlign: 'left',
-};
-
-
 export default function AppSider(){
 
     const {loading, assets} = useContext(CryptoContext)
@@ -68,5 +63,15 @@ export default function AppSider(){
                 </Card>
             ) : null)}
         </Layout.Sider>
+        // <div style={{ width: 256 }}>
+        //     <Menu
+        //         defaultSelectedKeys={['1']}
+        //         defaultOpenKeys={['sub1']}
+        //         mode="inline"
+        //         theme="dark"
+        //         inlineCollapsed={collapsed}
+        //         items={items}
+        //     />
+        // </div>
     )
 }

@@ -277,6 +277,10 @@ h2{
     height: auto;
     padding: 6px 20px;
 }
+.swap__button:disabled{
+    color: rgba(255, 255, 255, .7);
+    /* background: rgba(64, 150, 255, 0.3); */
+}
 
 ._title{
     text-transform: uppercase;

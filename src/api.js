@@ -12,13 +12,13 @@ const http = axios.create({
   },
 });
 
-const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      'X-API-KEY': 'TgU6evEyMuw4INzja2VZ8xYC3i2wxP/4w/KwD+Cr7DQ='
-    }
-};
+// const options = {
+//     method: 'GET',
+//     headers: {
+//       accept: 'application/json',
+//       'X-API-KEY': 'TgU6evEyMuw4INzja2VZ8xYC3i2wxP/4w/KwD+Cr7DQ='
+//     }
+// };
 
 export function fakeFetchCrypto(page = 1, limit = 30){
     return getCoinStatsData(page, limit);
@@ -32,7 +32,7 @@ export function fakeFetchCrypto(page = 1, limit = 30){
 //     })
 // }
 
-async function getCoinStatsData(page, limit) {
+async function getCoinStatsData(page = 1, limit = 30) {
     try {
       const response = await http.get(`/coins?page=${page}&limit=${limit}`)
       .then((response) => response.data);
@@ -133,6 +133,16 @@ export async function getExchanges () {
   try {
     const response = await http.get(`/tickers/exchanges`)
       .then((response) => response.data);
+    return response;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function getMarkets () {
+  try {
+    const response = await http.get(`/markets`)
+    .then(response => response.data)
     return response;
   } catch (err) {
     console.error(err);

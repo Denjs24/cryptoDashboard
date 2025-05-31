@@ -39,3 +39,15 @@ export function mapAssets(assets, crypto) {
         };
     });
 }
+
+export function formattedNumber (number){
+    return new Intl.NumberFormat('en-US', {
+        notation: 'compact',
+        compactDisplay: 'short',
+        maximumFractionDigits: 2,
+    }).format(number);
+}
+
+export function getPercentage(a, b) {
+  return (a / b) * 100;
+}

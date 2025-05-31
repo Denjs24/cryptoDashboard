@@ -23,7 +23,7 @@ const contentStyle = {
 };
 
 
-export default function AppContent(props){
+export default function AppContent(){
     return (
         
             <Layout.Content style={contentStyle}>
@@ -32,7 +32,9 @@ export default function AppContent(props){
                     <Route path="/" element={<Portfolio />}></Route>
                     <Route path="/listcrypto" element={<ListCrypto />}></Route>
                     <Route path="/swap" element={<Swap />}></Route>
-                    <Route path="/currency/:coinName" element={<Currency />}></Route>
+                    <Route path="/currency/:coinName" element={<Currency />}>
+                        <Route element={<div>Not found coin!</div>}></Route>
+                    </Route>
                     <Route path="/chainList" element={<ChainList />}></Route>
                     <Route path="/news" element={<News />}></Route>
                     <Route path="/news/:id" element={<NewsPage />}></Route>
@@ -43,7 +45,7 @@ export default function AppContent(props){
 
                     <Route path="/profile" element={<Profile />}></Route>
 
-                    <Route path="*" element={<div>Not found page</div>}></Route>
+                    <Route path="/*" element={<div>Not found page</div>}></Route>
                 </Routes>
             </Layout.Content>
     )

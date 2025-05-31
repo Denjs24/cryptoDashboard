@@ -126,7 +126,7 @@ export default function ListCrypto() {
   }  
 
   const handleClickRow = (record, rowIndex) => {
-    navigate.to(`/currency/${record.id}`);
+    navigate.to(`/listcrypto/${record.id}`);
   }
 
   if (loading || !cryptoTable) {

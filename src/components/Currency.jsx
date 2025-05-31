@@ -96,8 +96,6 @@ export function Currency(){
             </div>
         )
     }
-
-    console.log(getPercentage(coinData.availableSupply, coinData.totalSupply));
     
 
     return(

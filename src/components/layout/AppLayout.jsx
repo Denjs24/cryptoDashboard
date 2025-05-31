@@ -16,20 +16,20 @@ export default function AppLayout(){
     }
     return (
         <BrowserRouter>
-            <Layout>
+            {/* <Layout>
                 <AppHeader />
                 <Layout >
                     <AppSider />
-                    <AppContent text="Hello world"/>
-                </Layout>
-            </Layout>
-            {/* <Layout>
-                <AppSider />
-                <Layout>
-                    <AppHeader style={{ padding: 0}} />
-                    <AppContent style={{ margin: '24px 16px 0' }} />
+                    <AppContent />
                 </Layout>
             </Layout> */}
+            <Layout style={{flexDirection: 'row', maxHeight: '100dvh', overflow: 'hidden', padding: '24px', columnGap: '24px', minHeight: '500px'}}>
+                <AppSider />
+                <Layout style={{maxHeight: '100%', overflow: 'hidden', height: '100vh', }}>
+                    <AppHeader style={{ padding: 0, position: 'sticky', top: '0px'}} />
+                    <AppContent />
+                </Layout>
+            </Layout>
         </BrowserRouter>
     )
 }

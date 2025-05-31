@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body{
+    background: #001529;
+}
+.ant-layout{
+    background: #001529;
+}
 h2{
     font-size: 32px;
     font-weight: 700;
@@ -567,4 +573,16 @@ h2{
     position: fixed;
     top: 80px;
     right: 20px;
+}
+
+.ant-breadcrumb-link, .ant-breadcrumb-separator{
+    color: #fff !important;
+    font-size: 18px;
+}
+.ant-breadcrumb-link a{
+    color: inherit;
+}
+.ant-breadcrumb-link a:hover{
+    color: inherit;
+    text-decoration: underline;
 }

@@ -76,7 +76,7 @@ export function Swap () {
 
     return(
         <ReactDocumentTitle title="Swap">
-            <div className="swap">
+            <div style={{margin: 'auto'}} className="swap">
                 <div className="swap__top top-swap">
                     <div className="top-swap__left">
                         <Button className="top-swap__button">

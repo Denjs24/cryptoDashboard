@@ -1,7 +1,7 @@
-import { Layout, Typography} from 'antd';
+import { Breadcrumb, Layout, Typography} from 'antd';
 // import { useCrypto } from '../../context/crypto-context';
 import ListCrypto from '../ListCrypto';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, NavLink, useLocation } from "react-router-dom";
 import { Portfolio } from '../Portfolio';
 import { Currency } from './../Currency';
 import { Swap } from './../Swap';
@@ -15,24 +15,47 @@ import { Success } from '../../pages/Success';
 
 const contentStyle = {
     // textAlign: 'center',
-    minHeight: 'calc(100vh - 60px)',
     // lineHeight: '120px',
     color: '#fff',
     background: '#001529',
-    padding: '1rem'
+    padding: '1rem 1rem 3rem',
+    flex: '1 1 auto', 
+    overflowY: 'auto'
+
 };
 
 
 export default function AppContent(){
+    const location = useLocation()
+    const pathname = location.pathname.replace('/', '').split('/').filter(local => local !== "")
+    console.log(pathname);
+    
+    
     return (
         
             <Layout.Content style={contentStyle}>
+                {pathname.length > 0
+                &&
+                <Breadcrumb style={{color: 'white', margin: '0px 0px 15px'}} items={[
+                    {
+                        title: <NavLink to={'/'}>Home</NavLink>,
+                    },
+                    ...pathname.map((part, index) => {
+                        console.log(pathname.length , index - 1);
+                        console.log(pathname.length !== index - 1);
+                        
+                        return{
+                            title: pathname.length !== index + 1 ? <NavLink to={"/" + part}>{part.charAt(0).toUpperCase() + part.slice(1)}</NavLink> : part.charAt(0).toUpperCase() + part.slice(1) ,
+                        }
+                    })
+                ]}/>
+                }
                 
                 <Routes>
                     <Route path="/" element={<Portfolio />}></Route>
                     <Route path="/listcrypto" element={<ListCrypto />}></Route>
                     <Route path="/swap" element={<Swap />}></Route>
-                    <Route path="/currency/:coinName" element={<Currency />}>
+                    <Route path="/listcrypto/:coinName" element={<Currency />}>
                         <Route element={<div>Not found coin!</div>}></Route>
                     </Route>
                     <Route path="/chainList" element={<ChainList />}></Route>

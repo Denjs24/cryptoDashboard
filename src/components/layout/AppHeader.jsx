@@ -18,6 +18,7 @@ const headerStyle = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    // background: 'transparent'
 };
 
 
@@ -58,7 +59,7 @@ export default function AppHeader(){
 
     return (
       <Layout.Header style={headerStyle}>
-        <nav className="header-nav">
+        {/* <nav className="header-nav">
           <ul className="header-nav__list">
             <li className="header-nav__item">
               <NavLink
@@ -145,7 +146,7 @@ export default function AppHeader(){
               </NavLink>
             </li>
           </ul>
-        </nav>
+        </nav> */}
         
         <HeaderSearch />
         
